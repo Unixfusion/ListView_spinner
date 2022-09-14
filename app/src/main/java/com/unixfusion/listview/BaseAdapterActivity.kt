@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import com.unixfusion.listview.databinding.ActivityArrayAdapterBinding
-import com.unixfusion.listview.databinding.ActivityBaseAdapterBinding
 import com.unixfusion.listview.databinding.DialogAddCharacterBinding
 import java.util.*
 
@@ -69,6 +68,7 @@ class BaseAdapterActivity : AppCompatActivity() {
 
     private fun onAddPressed() {
         val dialogBinding = DialogAddCharacterBinding.inflate(layoutInflater)
+
         val dialog = AlertDialog.Builder(this)
             .setTitle("Create new character")
             .setView(dialogBinding.root)
