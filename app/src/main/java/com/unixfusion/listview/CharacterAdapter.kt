@@ -26,6 +26,14 @@ class CharacterAdapter(
     }
 
     override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return getDefaultView(position, convertView, parent, false)
+    }
+
+    override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+        return getDefaultView(position, convertView, parent, true)
+    }
+
+    private fun getDefaultView(position: Int, convertView: View?, parent: ViewGroup, isDropDownView: Boolean): View {
         val binding =
             convertView?.tag as ItemCharacterBinding? ?:
             createBinding(parent.context)
@@ -34,11 +42,10 @@ class CharacterAdapter(
 
         binding.tvTitle.text = character.name
         binding.ivDeleteCharacter.tag = character
-        binding.ivDeleteCharacter.visibility = if (character.isCustom) View.VISIBLE else View.GONE
-        
+        binding.ivDeleteCharacter.visibility = if (isDropDownView) View.GONE else View.VISIBLE
+
         return binding.root
     }
-
     private fun createBinding(context: Context?): ItemCharacterBinding {
         val binding = ItemCharacterBinding.inflate(LayoutInflater.from(context))
         binding.ivDeleteCharacter.setOnClickListener(this)

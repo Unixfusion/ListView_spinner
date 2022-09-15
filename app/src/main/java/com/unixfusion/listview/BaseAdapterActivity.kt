@@ -3,6 +3,8 @@ package com.unixfusion.listview
 import android.content.DialogInterface
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
+import android.widget.AdapterView
 import androidx.appcompat.app.AlertDialog
 import com.unixfusion.listview.databinding.ActivityArrayAdapterBinding
 import com.unixfusion.listview.databinding.DialogAddCharacterBinding
@@ -35,20 +37,39 @@ class BaseAdapterActivity : AppCompatActivity() {
             deleteCharacter(it)
         }
         binding.listView.adapter = adapter
-        
-        binding.listView.setOnItemClickListener { parent, view, position, id ->
-            showCharacterInfo(adapter.getItem(position))
+
+        //listener for spinner
+        binding.listView.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+            override fun onItemSelected(
+                parent: AdapterView<*>?,
+                view: View?,
+                position: Int,
+                id: Long
+            ) {
+                val character = data[position]
+                binding.textView.text = getString(R.string.character_info, character.name, character.id)
+
+            }
+
+            override fun onNothingSelected(parent: AdapterView<*>?) {
+                binding.textView.text = "Select the character"
+            }
         }
+
+// listener for listView
+//        binding.listView.setOnItemClickListener { parent, view, position, id ->
+//            showCharacterInfo(adapter.getItem(position))
+//        }
     }
 
-    private fun showCharacterInfo(character: Character) {
-        val dialog = AlertDialog.Builder(this)
-            .setTitle(character.name)
-            .setMessage(getString(R.string.character_info, character.name, character.id))
-            .setPositiveButton("OK") { _, _ -> }
-            .create()
-        dialog.show()
-    }
+//    private fun showCharacterInfo(character: Character) {
+//        val dialog = AlertDialog.Builder(this)
+//            .setTitle(character.name)
+//            .setMessage(getString(R.string.character_info, character.name, character.id))
+//            .setPositiveButton("OK") { _, _ -> }
+//            .create()
+//        dialog.show()
+//    }
 
     private fun deleteCharacter(character: Character) {
         val listener = DialogInterface.OnClickListener { dialog, which ->
